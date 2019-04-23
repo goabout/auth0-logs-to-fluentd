@@ -3,7 +3,6 @@ const request = require('request');
 const moment = require('moment');
 const url = require('url');
 const fluentd = require('fluent-logger');
-const EventTime = fluentd.EventTime
 const loggingTools = require('auth0-log-extension-tools');
 
 const config = require('../lib/config');
