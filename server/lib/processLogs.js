@@ -2,6 +2,8 @@ const async = require('async');
 const request = require('request');
 const moment = require('moment');
 const url = require('url');
+const fluentd = require('fluent-logger');
+const EventTime = fluentd.EventTime
 const loggingTools = require('auth0-log-extension-tools');
 
 const config = require('../lib/config');
@@ -17,20 +19,26 @@ module.exports = (storage) =>
       return next();
     }
 
-    const now = Date.now();
-    let fluentdUrl = config('FLUENTD_URL');
-
-    if (config('FLUENTD_TOKEN')) {
-      const parsedUrl = url.parse(fluentdUrl);
-      fluentdUrl = (parsedUrl.query) ? `${fluentdUrl}&token=${config('FLUENTD_TOKEN')}` : `${fluentdUrl}?token=${config('FLUENTD_TOKEN')}`;
+    const fluentdOptions = {
+      host: config('FLUENTD_HOST'),
+      port: config('FLUENTD_PORT'),
+      security: {},
+      timeout: 3.0,
+      tls: (config('FLUENTD_TLS') === 'true'),
+    };
+    const sharedKey = config('FLUENTD_SHARED_KEY');
+    if (sharedKey) {
+      fluentdOptions.security.sharedKey = sharedKey;
     }
+    fluentd.configure('auth0', fluentdOptions);
+
+    const now = Date.now();
 
     const sendLog = function (log, callback) {
       if (!log) {
         return callback();
       }
 
-      const index = config('FLUENTD_INDEX');
       const data = {
         post_date: now,
         type_description: loggingTools.logTypes.get(log.type)
@@ -40,30 +48,9 @@ module.exports = (storage) =>
         data[key] = log[key];
       });
 
-      data[index] = log[index] || 'auth0';
-      data.message = JSON.stringify(log);
+      // data.message = JSON.stringify(log);
 
-      const options = {
-        method: 'POST',
-        timeout: 2000,
-        url: fluentdUrl,
-        headers: { 'cache-control': 'no-cache', 'content-type': 'application/json' },
-        body: data,
-        json: true
-      };
-
-      if (config('FLUENTD_USER') && config('FLUENTD_PASSWORD')) {
-        options['auth'] = {
-          user: config('FLUENTD_USER'),
-          pass: config('FLUENTD_PASSWORD'),
-          sendImmediately: true
-        }
-      }
-
-      request(options, (err, resp, body) => {
-        const error = err || (body && body.error) || null;
-        callback(error);
-      });
+      fluentd.emit(data, callback);
     };
 
     const onLogsReceived = (logs, callback) => {
