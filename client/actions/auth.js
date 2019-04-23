@@ -5,8 +5,8 @@ import * as constants from '../constants';
 
 export function logout() {
   return (dispatch) => {
-    localStorage.removeItem('logs-to-logstash:apiToken');
-    sessionStorage.removeItem('logs-to-logstash:apiToken');
+    localStorage.removeItem('logs-to-fluentd:apiToken');
+    sessionStorage.removeItem('logs-to-fluentd:apiToken');
 
     window.location = window.config.AUTH0_MANAGE_URL;
 
@@ -18,7 +18,7 @@ export function logout() {
 
 export function loadCredentials() {
   return (dispatch) => {
-    const apiToken = sessionStorage.getItem('logs-to-logstash:apiToken');
+    const apiToken = sessionStorage.getItem('logs-to-fluentd:apiToken');
     if (apiToken) {
       const decodedToken = decodeToken(apiToken);
 
@@ -27,7 +27,7 @@ export function loadCredentials() {
       }
 
       axios.defaults.headers.common.Authorization = `Bearer ${apiToken}`;
-      sessionStorage.setItem('logs-to-logstash:apiToken', apiToken);
+      sessionStorage.setItem('logs-to-fluentd:apiToken', apiToken);
 
       dispatch({
         type: constants.RECIEVED_TOKEN,

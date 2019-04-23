@@ -1,13 +1,13 @@
 {
-  "name": "auth0-logs-to-logstash",
-  "version": "2.1.0",
-  "description": "This extension will continuously export your Auth0 logs to Logstash",
+  "name": "auth0-logs-to-fluentd",
+  "version": "1.0.0",
+  "description": "This extension will continuously export your Auth0 logs to Fluentd",
   "main": "index.js",
   "scripts": {
     "build": "npm run clean && npm run client:build && npm run extension:build",
     "clean": "rimraf dist",
     "client:build": "npm run clean && cross-env NODE_ENV=production webpack --config ./build/webpack/config.prod.js --colors -p",
-    "extension:build": "a0-ext build:server ./webtask.js ./dist && cp ./dist/auth0-logs-to-logstash.extension.$npm_package_version.js ./build/bundle.js",
+    "extension:build": "a0-ext build:server ./webtask.js ./dist && cp ./dist/auth0-logs-to-fluentd.extension.$npm_package_version.js ./build/bundle.js",
     "lint:js": "eslint --ignore-path .gitignore --ignore-pattern build --ignore-pattern webpack .",
     "serve:dev": "cross-env NODE_ENV=development gulp run --gulpfile ./build/gulpfile.js",
     "serve:prod": "cross-env NODE_ENV=production node index.js",
@@ -15,13 +15,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/auth0/auth0-logs-to-logstash.git"
+    "url": "git+https://github.com/auth0/auth0-logs-to-fluentd.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/auth0/auth0-logs-to-logstash/issues"
+    "url": "https://github.com/auth0/auth0-logs-to-fluentd/issues"
   },
-  "homepage": "https://github.com/auth0/auth0-logs-to-logstash#readme",
+  "homepage": "https://github.com/auth0/auth0-logs-to-fluentd#readme",
   "auth0-extension": {
     "externals": [
       "async@2.1.2",

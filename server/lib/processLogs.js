@@ -18,11 +18,11 @@ module.exports = (storage) =>
     }
 
     const now = Date.now();
-    let logstashUrl = config('LOGSTASH_URL');
+    let fluentdUrl = config('FLUENTD_URL');
 
-    if (config('LOGSTASH_TOKEN')) {
-      const parsedUrl = url.parse(logstashUrl);
-      logstashUrl = (parsedUrl.query) ? `${logstashUrl}&token=${config('LOGSTASH_TOKEN')}` : `${logstashUrl}?token=${config('LOGSTASH_TOKEN')}`;
+    if (config('FLUENTD_TOKEN')) {
+      const parsedUrl = url.parse(fluentdUrl);
+      fluentdUrl = (parsedUrl.query) ? `${fluentdUrl}&token=${config('FLUENTD_TOKEN')}` : `${fluentdUrl}?token=${config('FLUENTD_TOKEN')}`;
     }
 
     const sendLog = function (log, callback) {
@@ -30,7 +30,7 @@ module.exports = (storage) =>
         return callback();
       }
 
-      const index = config('LOGSTASH_INDEX');
+      const index = config('FLUENTD_INDEX');
       const data = {
         post_date: now,
         type_description: loggingTools.logTypes.get(log.type)
@@ -46,16 +46,16 @@ module.exports = (storage) =>
       const options = {
         method: 'POST',
         timeout: 2000,
-        url: logstashUrl,
+        url: fluentdUrl,
         headers: { 'cache-control': 'no-cache', 'content-type': 'application/json' },
         body: data,
         json: true
       };
 
-      if (config('LOGSTASH_USER') && config('LOGSTASH_PASSWORD')) {
+      if (config('FLUENTD_USER') && config('FLUENTD_PASSWORD')) {
         options['auth'] = {
-          user: config('LOGSTASH_USER'),
-          pass: config('LOGSTASH_PASSWORD'),
+          user: config('FLUENTD_USER'),
+          pass: config('FLUENTD_PASSWORD'),
           sendImmediately: true
         }
       }
@@ -71,12 +71,12 @@ module.exports = (storage) =>
         return callback();
       }
 
-      logger.info(`Sending ${logs.length} logs to Logstash.`);
+      logger.info(`Sending ${logs.length} logs to Fluentd.`);
 
       async.eachLimit(logs, 10, sendLog, callback);
     };
 
-    const slack = new loggingTools.reporters.SlackReporter({ hook: config('SLACK_INCOMING_WEBHOOK_URL'), username: 'auth0-logs-to-logstash', title: 'Logs To Logstash' });
+    const slack = new loggingTools.reporters.SlackReporter({ hook: config('SLACK_INCOMING_WEBHOOK_URL'), username: 'auth0-logs-to-fluentd', title: 'Logs To Fluentd' });
 
     const options = {
       domain: config('AUTH0_DOMAIN'),

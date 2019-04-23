@@ -1,16 +1,16 @@
 {
-  "title": "Auth0 Logs to Logstash",
-  "name": "auth0-logs-to-logstash",
+  "title": "Auth0 Logs to Fluentd",
+  "name": "auth0-logs-to-fluentd",
   "version": "2.1.0",
   "preVersion": "2.0.7",
   "author": "auth0",
   "category": "log_export",
-  "description": "This extension will continuously export your Auth0 logs to Logstash",
+  "description": "This extension will continuously export your Auth0 logs to Fluentd",
   "type": "cron",
   "initialUrlPath": "/login",
-  "repository": "https://github.com/auth0-extensions/auth0-logs-to-logstash",
-  "docsUrl": "https://auth0.com/docs/extensions/logstash",
-  "logoUrl": "https://cdn.auth0.com/extensions/auth0-logs-to-logstash/assets/logo.png",
+  "repository": "https://github.com/auth0-extensions/auth0-logs-to-fluentd",
+  "docsUrl": "https://auth0.com/docs/extensions/fluentd",
+  "logoUrl": "https://cdn.auth0.com/extensions/auth0-logs-to-fluentd/assets/logo.png",
   "keywords": [
     "auth0",
     "extension"
@@ -23,27 +23,27 @@
   },
   "secrets": {
     "BATCH_SIZE": {
-      "description": "The amount of logs to batch before sending to Logstash. A single cron execution will send multiple batches.",
+      "description": "The amount of logs to batch before sending to Fluentd. A single cron execution will send multiple batches.",
       "default": 100
     },
-    "LOGSTASH_URL": {
-      "description": "Logstash URL (from logstash-input-http)",
+    "FLUENTD_URL": {
+      "description": "Fluentd URL (from fluentd-input-http)",
       "example": "https://listener.logz.io:8071",
       "required": true
     },
-    "LOGSTASH_INDEX": {
-      "description": "Logstash Index (as defined in Logstash setup)",
+    "FLUENTD_INDEX": {
+      "description": "Fluentd Index (as defined in Fluentd setup)",
       "required": true
     },
-    "LOGSTASH_TOKEN": {
-      "description": "Logstash Token (optional)",
+    "FLUENTD_TOKEN": {
+      "description": "Fluentd Token (optional)",
       "type": "password"
     },
-    "LOGSTASH_USER": {
-      "description": "Logstash User (optional)"
+    "FLUENTD_USER": {
+      "description": "Fluentd User (optional)"
     },
-    "LOGSTASH_PASSWORD": {
-      "description": "Logstash Password (optional)",
+    "FLUENTD_PASSWORD": {
+      "description": "Fluentd Password (optional)",
       "type": "password"
     },
     "START_FROM": {
