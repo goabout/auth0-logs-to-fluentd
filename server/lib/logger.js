@@ -1,15 +1,15 @@
 const winston = require('winston');
 
-const logger = winston.createLogger({
-  format: winston.format.combine(
-    winston.format.simple(),
-    winston.format.timestamp(),
-    winston.format.colorize(),
-  ),
+winston.emitErrs = true;
+
+const logger = new winston.Logger({
   transports: [
     new winston.transports.Console({
+      timestamp: true,
       level: 'debug',
       handleExceptions: true,
+      json: false,
+      colorize: true
     })
   ],
   exitOnError: false

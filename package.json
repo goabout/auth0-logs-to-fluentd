@@ -89,7 +89,7 @@
     "expect": "^1.20.2",
     "express": "^4.14.0",
     "express-jwt": "^3.4.0",
-    "fluent-logger": "^3.3.1",
+    "fluent-logger": "^2.7.0",
     "glob": "^7.0.5",
     "immutable": "^3.8.1",
     "jsonwebtoken": "^7.1.9",
@@ -114,7 +114,7 @@
     "terser-webpack-plugin-legacy": "1.2.3",
     "useragent": "^2.1.13",
     "webtask-tools": "^3.0.0",
-    "winston": "^3.2.1"
+    "winston": "^2.2.0"
   },
   "devDependencies": {
     "auth0-extensions-cli": "~1.0.11",
