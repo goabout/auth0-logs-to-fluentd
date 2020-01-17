@@ -1,5 +1,7 @@
 # Auth0 - Logs to Fluentd
 
+**This project has been archived and will not receive any updates.**
+
 This extension will take all of your Auth0 logs and export them to Fluentd. It was adapted from the official [Logstash extension](https://github.com/auth0-extensions/auth0-logs-to-logstash).
 
 ## Installation
